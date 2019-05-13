@@ -1,13 +1,39 @@
 <html>
-    <head>
-        <title>Snake Game</title>
-        <style>
-            canvas{
-                display: block;
-                margin: 0 auto;
-            }
-        </style>
-    </head>
+
+<head>
+    <title>Snake Game</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+        }
+        #input-box{
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #input-box h4{
+            margin-top: 0px;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+
+<body>
     <canvas id="snake" width="608" height="608"></canvas>
+
+    <div id="input-box">
+        <h4>Enter your Name</h4>
+        <input type="text" >
+        <button>Submit</button>
+    </div>
+
+
+
+
     <script src="snake.js"></script>
+</body>
+
 </html>
