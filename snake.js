@@ -1,8 +1,3 @@
-/*
-Create by Learn Web Developement
-Youtube channel : https://www.youtube.com/channel/UC8n8ftV94ZU_DJLOLtrpORA
-*/
-
 const cvs = document.getElementById("snake");
 const ctx = cvs.getContext("2d");
 
@@ -136,9 +131,10 @@ function draw() {
     // game over
 
     if (snakeX < box || snakeX > 17 * box || snakeY < 3 * box || snakeY > 17 * box || collision(newHead, snake)) {
+        clearInterval(game);
         let box = document.getElementById("input-box");
         box.style.display = "flex";
-        clearInterval(game);
+        //onClickButton();
         dead.play();
     }
 
@@ -152,3 +148,29 @@ function draw() {
 // call draw function every 100 ms
 
 let game = setInterval(draw, 200);
+
+
+const onClickButton = () => {
+    console.log("sasa");
+    let inputText = document.getElementById("input-text");
+    const text = inputText.value;
+    console.log(text);
+    console.log(score);
+    const data = {
+        name: text,
+        score: score,
+    };
+    console.log(data);
+    fetch("http://localhost:3000/api/users", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => {
+            return response.json();
+        }).then((data) => {
+            console.log(data)
+        })
+}
