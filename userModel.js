@@ -10,7 +10,6 @@ const User = mongoose.model('user', userSchema);
 const getUsers = async () => {
     const users = await User
         .find({});
-    // console.log(movies);
     return users;
 };
 

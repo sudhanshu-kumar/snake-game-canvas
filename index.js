@@ -24,7 +24,7 @@ app.get('/api/users', async (request, response) => {
     response.json(users);
   });
   
-  //= =================Add New Users=========================
+  //= =================Add New User=========================
   app.post('/api/users', (request, response) => {
       const newUser = userObj.addUser(request.body);
       response.json(newUser);

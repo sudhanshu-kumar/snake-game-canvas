@@ -42,7 +42,7 @@ snake[0] = {
 let food = {
     x: Math.floor(Math.random() * 17 + 1) * box,
     y: Math.floor(Math.random() * 15 + 3) * box
-}
+};
 
 // create the score var
 
@@ -71,7 +71,7 @@ function direction(event) {
     }
 }
 
-// cheack collision function
+// check collision function
 function collision(head, array) {
     for (let i = 0; i < array.length; i++) {
         if (head.x == array[i].x && head.y == array[i].y) {
@@ -84,11 +84,10 @@ function collision(head, array) {
 // draw everything to the canvas
 
 function draw() {
-
     ctx.drawImage(ground, 0, 0);
 
     for (let i = 0; i < snake.length; i++) {
-        ctx.fillStyle = (i == 0) ? "green" : "white";
+        ctx.fillStyle = i == 0 ? "green" : "white";
         ctx.fillRect(snake[i].x, snake[i].y, box, box);
 
         ctx.strokeStyle = "red";
@@ -114,7 +113,7 @@ function draw() {
         food = {
             x: Math.floor(Math.random() * 17 + 1) * box,
             y: Math.floor(Math.random() * 15 + 3) * box
-        }
+        };
         // we don't remove the tail
     } else {
         // remove the tail
@@ -126,16 +125,22 @@ function draw() {
     let newHead = {
         x: snakeX,
         y: snakeY
-    }
+    };
 
     // game over
 
-    if (snakeX < box || snakeX > 17 * box || snakeY < 3 * box || snakeY > 17 * box || collision(newHead, snake)) {
+    if (
+        snakeX < box ||
+        snakeX > 17 * box ||
+        snakeY < 3 * box ||
+        snakeY > 17 * box ||
+        collision(newHead, snake)
+    ) {
         clearInterval(game);
-        let box = document.getElementById("input-box");
-        box.style.display = "flex";
-        //onClickButton();
         dead.play();
+        let scoreBox = document.getElementById("input-box");
+        scoreBox.style.display = "flex";
+
     }
 
     snake.unshift(newHead);
@@ -145,10 +150,9 @@ function draw() {
     ctx.fillText(score, 2 * box, 1.6 * box);
 }
 
-// call draw function every 100 ms
+// call draw function every 400 ms
 
-let game = setInterval(draw, 200);
-
+let game = setInterval(draw, 400);
 
 const onClickButton = () => {
     console.log("sasa");
@@ -158,19 +162,50 @@ const onClickButton = () => {
     console.log(score);
     const data = {
         name: text,
-        score: score,
+        score: score
     };
     console.log(data);
     fetch("http://localhost:3000/api/users", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             }
         })
-        .then((response) => {
+        .then(response => {
+            inputText.value = "";
             return response.json();
-        }).then((data) => {
-            console.log(data)
         })
-}
+        .then(data => {
+            window.alert("Score saved");
+            console.log(data);
+        });
+};
+
+const getScores = () => {
+    fetch("http://localhost:3000/api/users")
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            const sortedData = data.sort((obj1, obj2) => obj2.score - obj1.score);
+            console.log(sortedData);
+            const box = document.getElementById("input-box");
+            const table = document.createElement("table");
+            var head = table.insertRow(0);
+            var cell1 = head.insertCell(0);
+            var cell2 = head.insertCell(1);
+            cell1.innerHTML = "<b>Name</b>";
+            cell2.innerHTML = "<b>Score</b>";
+            for (let i = 0; i < sortedData.length; i++) {
+                var row = table.insertRow(i + 1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = sortedData[i].name;
+                cell2.innerHTML = sortedData[i].score;
+            }
+
+            box.appendChild(table);
+        });
+};

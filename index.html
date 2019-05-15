@@ -7,16 +7,25 @@
             display: block;
             margin: 0 auto;
         }
-        #input-box{
+
+        #input-box {
             display: none;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
             margin-top: 20px;
         }
-        #input-box h4{
+
+        #input-box h4 {
             margin-top: 0px;
             margin-bottom: 4px;
+        }
+        table {
+            border: 2px solid green;
+        }
+        table td {
+            border: 1px solid green;
+            text-align: center;
         }
     </style>
 </head>
@@ -26,12 +35,10 @@
 
     <div id="input-box">
         <h4>Enter your Name</h4>
-        <input id="input-text" type="text" >
+        <input id="input-text" type="text">
         <button id="btn" onclick=onClickButton()>Submit</button>
+        <button id="show" onclick=getScores()>Show Scores</button>
     </div>
-
-
-
 
     <script src="snake.js"></script>
 </body>
